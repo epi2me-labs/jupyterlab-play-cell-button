@@ -1,4 +1,6 @@
-# jupyterlab-play-cell-button
+# jupyterlab_play_cell_button
+
+![Github Actions Status](https://github.com/epi2me-labs/jupyterlab-play-cell-button.git/workflows/Build/badge.svg)
 
 Adds a play button to cells in jupyterlab
 
@@ -6,17 +8,30 @@ Adds a play button to cells in jupyterlab
 
 ## Requirements
 
-* JupyterLab >= 2.0
+* JupyterLab >= 3.0
 
 ## Install
 
+To install the extension, execute:
+
 ```bash
-jupyter labextension install @epi2melabs/jupyterlab-play-cell-button
+pip install jupyterlab_play_cell_button
 ```
+
+## Uninstall
+
+To remove the extension, execute:
+
+```bash
+pip uninstall jupyterlab_play_cell_button
+```
+
 
 ## Contributing
 
-### Install
+### Development install
+
+Note: You will need NodeJS to build the extension package.
 
 The `jlpm` command is JupyterLab's pinned version of
 [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
@@ -24,34 +39,38 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Move to jupyterlab-play-cell-button directory
-
-# Install dependencies
-jlpm
-# Build Typescript source
-jlpm build
+# Change directory to the jupyterlab_play_cell_button directory
+# Install package in development mode
+pip install -e .
 # Link your development version of the extension with JupyterLab
-jupyter labextension install .
-# Rebuild Typescript source after making changes
-jlpm build
-# Rebuild JupyterLab after making any changes
-jupyter lab build
+jupyter labextension develop . --overwrite
+# Rebuild extension Typescript source after making changes
+jlpm run build
 ```
 
-You can watch the source directory and run JupyterLab in watch mode to watch for changes in the extension's source and automatically rebuild the extension and application.
+You can watch the source directory and run JupyterLab at the same time in different terminals to watch for changes in the extension's source and automatically rebuild the extension.
 
 ```bash
-# Watch the source directory in another terminal tab
-jlpm watch
-# Run jupyterlab in watch mode in one terminal tab
-jupyter lab --watch
+# Watch the source directory in one terminal, automatically rebuilding when needed
+jlpm run watch
+# Run JupyterLab in another terminal
+jupyter lab
 ```
 
-Now every change will be built locally and bundled into JupyterLab. Be sure to refresh your browser page after saving file changes to reload the extension (note: you'll need to wait for webpack to finish, which can take 10s+ at times).
+With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
 
-### Uninstall
+By default, the `jlpm run build` command generates the source maps for this extension to make it easier to debug using the browser dev tools. To also generate source maps for the JupyterLab core extensions, you can run the following command:
 
 ```bash
-
-jupyter labextension uninstall jupyterlab-play-cell-button
+jupyter lab build --minimize=False
 ```
+
+### Development uninstall
+
+```bash
+pip uninstall jupyterlab_play_cell_button
+```
+
+In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
+command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
+folder is located. Then you can remove the symlink named `@epi2melabs/jupyterlab-play-cell-button` within that folder.
